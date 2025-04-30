@@ -5,7 +5,7 @@ from telegram.constants import ParseMode
 import uvicorn
 
 TOKEN = '8147248535:AAHjY9hdf8slD0UXNSEW6nB6-M4zzzvdQtU'
-CHANNEL_ID = '1001234567890'
+CHANNEL_ID = ' -1002562856713'
 MESSAGE_TEXT = "👆"
 
 app = FastAPI()
