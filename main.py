@@ -30,7 +30,7 @@ async def bot_loop():
         except Exception as e:
             print(f"Bot error: {e}")
 
-        await asyncio.sleep(100)  # 10 minutes
+        await asyncio.sleep(1200)  # 10 minutes
 
 
 @app.on_event("startup")
