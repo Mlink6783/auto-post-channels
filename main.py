@@ -4,9 +4,7 @@ from fastapi import FastAPI
 from telegram import Bot
 from telegram.constants import ParseMode
 import uvicorn
-from dotenv import load_dotenv
 
-load_dotenv()  # Optional, only needed for local development
 
 # Get credentials from environment variables
 TOKEN = os.getenv("BOT_TOKEN")
