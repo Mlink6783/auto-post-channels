@@ -1,11 +1,16 @@
 import asyncio
+import os
 from fastapi import FastAPI
 from telegram import Bot
 from telegram.constants import ParseMode
 import uvicorn
+from dotenv import load_dotenv
 
-TOKEN = '8147248535:AAHjY9hdf8slD0UXNSEW6nB6-M4zzzvdQtU'
-CHANNEL_ID = '-1002562856713'
+load_dotenv()  # Optional, only needed for local development
+
+# Get credentials from environment variables
+TOKEN = os.getenv("BOT_TOKEN")
+CHANNEL_ID = os.getenv("CHANNEL_ID")
 MESSAGE_TEXT = "👆"
 
 app = FastAPI()
@@ -30,7 +35,7 @@ async def bot_loop():
         except Exception as e:
             print(f"Bot error: {e}")
 
-        await asyncio.sleep(1200)  # 10 minutes
+        await asyncio.sleep(100)  # 10 minutes
 
 
 @app.on_event("startup")
