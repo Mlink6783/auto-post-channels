@@ -4,9 +4,9 @@ from telegram import Bot
 from telegram.constants import ParseMode
 import uvicorn
 
-TOKEN = 'YOUR_BOT_TOKEN'
-CHANNEL_ID = '@your_channel_username'
-MESSAGE_TEXT = "🔁 This is an automated fixed message."
+TOKEN = '8147248535:AAHjY9hdf8slD0UXNSEW6nB6-M4zzzvdQtU'
+CHANNEL_ID = '1001234567890'
+MESSAGE_TEXT = "👆"
 
 app = FastAPI()
 bot = Bot(token=TOKEN)
