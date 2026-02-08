@@ -1,56 +1,64 @@
 import asyncio
 import os
-from fastapi import FastAPI
-from telegram import Bot
-from telegram.constants import ParseMode
-import uvicorn
+from pyrogram import Client
+from flask import Flask
+from threading import Thread
 
-# Get credentials from environment variables
-TOKEN = os.getenv("BOT_TOKEN")
-CHANNEL_ID = os.getenv("CHANNEL_ID")
-MESSAGE_TEXT = "👆"
+# Render Environment Variables থেকে ডেটা সংগ্রহ
+API_ID = os.environ.get('API_ID')
+API_HASH = os.environ.get('API_HASH')
+BOT_USERNAME = os.environ.get('BOT_USERNAME', 'DatingBotUsername') # ডিফল্ট ইউজারনেম দিতে পারেন
 
-# Type check for CHANNEL_ID (as env var comes as string)
-try:
-    CHANNEL_ID = int(CHANNEL_ID)
-except Exception as e:
-    print(f"Invalid CHANNEL_ID: {CHANNEL_ID}. Make sure it's a valid Telegram channel ID (e.g. -1001234567890)")
+# সেশন স্ট্রিং পদ্ধতি (Render-এর জন্য সবথেকে ভালো)
+SESSION_STRING = os.environ.get('SESSION_STRING')
 
-app = FastAPI()
-bot = Bot(token=TOKEN)
-last_message_id = None
+if SESSION_STRING:
+    app = Client("my_bot", session_string=SESSION_STRING, api_id=API_ID, api_hash=API_HASH)
+else:
+    # যদি সেশন স্ট্রিং না থাকে তবে লোকাল ফাইল ব্যবহার করবে
+    app = Client("my_account", api_id=API_ID, api_hash=API_HASH)
 
-@app.get("/")
-async def root():
-    return {"status": "Bot is running."}
+# Render-এর জন্য ওয়েব সার্ভার
+web = Flask('')
 
+@web.route('/')
+def home():
+    return "Bot is running 24/7!"
 
-async def bot_loop():
-    global last_message_id
-    while True:
-        try:
-            # Delete old message if exists
-            if last_message_id:
-                try:
-                    await bot.delete_message(chat_id=CHANNEL_ID, message_id=last_message_id)
-                except Exception as delete_err:
-                    print(f"Delete failed: {delete_err}")
+def run_web():
+    web.run(host='0.0.0.0', port=8080)
 
-            # Send new message
-            sent = await bot.send_message(chat_id=CHANNEL_ID, text=MESSAGE_TEXT, parse_mode=ParseMode.HTML)
-            last_message_id = sent.message_id
-            print(f"Sent message ID: {last_message_id}")
+async def automation():
+    async with app:
+        print("--- Automation Started ---")
+        while True:
+            try:
+                # ১. /search পাঠানো
+                await app.send_message(BOT_USERNAME, "/search")
+                print("Searching...")
+                await asyncio.sleep(6) # একটু বেশি সময় দেওয়া নিরাপদ
 
-        except Exception as e:
-            print(f"Bot error: {e}")
+                # ২. মেসেজ পাঠানো (র‍্যান্ডম বিরতি সহ)
+                promo_text = "Girls and boys zone 18+ only.. 100% Free just take a look 👉 : https://t.co/rh8nCe5WGl"
+                await app.send_message(BOT_USERNAME, promo_text)
+                await asyncio.sleep(7)
 
-        await asyncio.sleep(1800)  # 30 minutes
+                please_text = "plz join so that we both get 50 free gender wise match limit"
+                await app.send_message(BOT_USERNAME, please_text)
+                print("Messages sent!")
+                await asyncio.sleep(7)
 
+                # ৩. /stop পাঠানো
+                await app.send_message(BOT_USERNAME, "/stop")
+                print("Cycle complete. Sleeping...")
+                
+                # ৪. বড় বিরতি (অ্যাকাউন্ট সেফ রাখার জন্য কমপক্ষে ৬০-৯০ সেকেন্ড দিন)
+                await asyncio.sleep(10) 
 
-@app.on_event("startup")
-async def startup_event():
-    asyncio.create_task(bot_loop())
-
+            except Exception as e:
+                print(f"Error encountered: {e}")
+                await asyncio.sleep(5)
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000)
+    Thread(target=run_web).start()
+    app.run(automation())
