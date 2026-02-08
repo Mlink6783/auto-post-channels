@@ -60,5 +60,11 @@ async def automation():
                 await asyncio.sleep(5)
 
 if __name__ == "__main__":
-    Thread(target=run_web).start()
+    # Render এর জন্য পোর্ট ম্যানেজমেন্ট
+    port = int(os.environ.get("PORT", 8080))
+    
+    # ওয়েব সার্ভার আলাদা থ্রেডে চালানো
+    Thread(target=lambda: web.run(host='0.0.0.0', port=port, use_reloader=False)).start()
+    
+    # অটোমেশন শুরু
     app.run(automation())
