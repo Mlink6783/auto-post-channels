@@ -34,30 +34,30 @@ async def automation():
         while True:
             try:
                 # ১. /search পাঠানো
-                await app.send_message(BOT_USERNAME, "🙍‍♂️ Find a guy")
+                await app.send_message(BOT_USERNAME, "/search")
                 print("Searching...")
-                await asyncio.sleep(6) # একটু বেশি সময় দেওয়া নিরাপদ
+                await asyncio.sleep(4) # একটু বেশি সময় দেওয়া নিরাপদ
 
                 # ২. মেসেজ পাঠানো (র‍্যান্ডম বিরতি সহ)
                 promo_text = "Girls and boys zone 18+ only.. 100% Free just take a look 👉 : https://t.co/rh8nCe5WGl"
                 await app.send_message(BOT_USERNAME, promo_text)
-                await asyncio.sleep(7)
+                await asyncio.sleep(4)
 
                 please_text = "plz join so that we both get 50 free gender wise match limit"
                 await app.send_message(BOT_USERNAME, please_text)
                 print("Messages sent!")
-                await asyncio.sleep(7)
+                await asyncio.sleep(4)
 
                 # ৩. /stop পাঠানো
                 await app.send_message(BOT_USERNAME, "/stop")
                 print("Cycle complete. Sleeping...")
                 
                 # ৪. বড় বিরতি (অ্যাকাউন্ট সেফ রাখার জন্য কমপক্ষে ৬০-৯০ সেকেন্ড দিন)
-                await asyncio.sleep(10) 
+                await asyncio.sleep(5) 
 
             except Exception as e:
                 print(f"Error encountered: {e}")
-                await asyncio.sleep(5)
+                await asyncio.sleep(4)
 
 if __name__ == "__main__":
     # Render এর জন্য পোর্ট ম্যানেজমেন্ট
