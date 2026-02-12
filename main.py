@@ -34,19 +34,19 @@ async def automation():
         while True:
             try:
                 # ১. /search পাঠানো
-                await app.send_message(BOT_USERNAME, "/search")
+                await app.send_message(BOT_USERNAME, "🙍‍♂️ Find a guy")
                 print("Searching...")
-                await asyncio.sleep(4) # একটু বেশি সময় দেওয়া নিরাপদ
+                await asyncio.sleep(3) # একটু বেশি সময় দেওয়া নিরাপদ
 
                 # ২. মেসেজ পাঠানো (র‍্যান্ডম বিরতি সহ)
                 promo_text = "Girls and boys zone 18+ only.. 100% Free just take a look 👉 : https://t.co/rh8nCe5WGl"
                 await app.send_message(BOT_USERNAME, promo_text)
-                await asyncio.sleep(4)
+                await asyncio.sleep(3)
 
                 please_text = "plz join so that we both get 50 free gender wise match limit"
                 await app.send_message(BOT_USERNAME, please_text)
                 print("Messages sent!")
-                await asyncio.sleep(4)
+                await asyncio.sleep(2)
 
                 # ৩. /stop পাঠানো
                 await app.send_message(BOT_USERNAME, "/stop")
