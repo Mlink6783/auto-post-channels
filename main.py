@@ -34,7 +34,7 @@ async def automation():
         while True:
             try:
                 # ১. /search পাঠানো
-                await app.send_message(BOT_USERNAME, "/search")
+                await app.send_message(BOT_USERNAME, "🙍‍♂️ Find a guy")
                 print("Searching...")
                 await asyncio.sleep(6) # একটু বেশি সময় দেওয়া নিরাপদ
 
