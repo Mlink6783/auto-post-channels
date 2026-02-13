@@ -1,70 +1,85 @@
 import asyncio
 import os
-from pyrogram import Client
+from pyrogram import Client, filters
 from flask import Flask
 from threading import Thread
 
-# Render Environment Variables থেকে ডেটা সংগ্রহ
+# Render Environment Variables
 API_ID = os.environ.get('API_ID')
 API_HASH = os.environ.get('API_HASH')
-BOT_USERNAME = os.environ.get('BOT_USERNAME', 'DatingBotUsername') # ডিফল্ট ইউজারনেম দিতে পারেন
-
-# সেশন স্ট্রিং পদ্ধতি (Render-এর জন্য সবথেকে ভালো)
+BOT_USERNAME = os.environ.get('BOT_USERNAME', 'DatingBotUsername') 
 SESSION_STRING = os.environ.get('SESSION_STRING')
 
 if SESSION_STRING:
     app = Client("my_bot", session_string=SESSION_STRING, api_id=API_ID, api_hash=API_HASH)
 else:
-    # যদি সেশন স্ট্রিং না থাকে তবে লোকাল ফাইল ব্যবহার করবে
     app = Client("my_account", api_id=API_ID, api_hash=API_HASH)
 
-# Render-এর জন্য ওয়েব সার্ভার
+# common promo text (Dating bot o private chat-er jonno same)
+promo_text = (
+    "Girls and boys zone 18+ only.. 100% Free random video chats , 1v1 chats\n\n"
+    "Daily Gender wise 50 times free sarch\n\n"
+    "only real telegrm users\n\n"
+    "just take a look : https://t.co/rh8nCe5WGl"
+)
+
+# Protiti user-ke ekbar reply dewar jonno list
+replied_users = set()
+
+# Private Chat Handler (Sudhu inbox-er jonno)
+@app.on_message(filters.private & ~filters.bot)
+async def auto_reply(client, message):
+    # Dating bot chara onno keu message dile ebong jodi age reply na peye thake
+    if message.chat.username != BOT_USERNAME and message.from_user.id not in replied_users:
+        try:
+            await message.reply_text(promo_text)
+            replied_users.add(message.from_user.id)
+            print(f"Auto-reply sent to: {message.from_user.id}")
+        except Exception as e:
+            print(f"Reply error: {e}")
+
+# Render-er jonno web server
 web = Flask('')
 
 @web.route('/')
 def home():
     return "Bot is running 24/7!"
 
-def run_web():
-    web.run(host='0.0.0.0', port=8080)
-
 async def automation():
     async with app:
-        print("--- Automation Started ---")
+        print("--- Automation & Private Reply Started ---")
         while True:
             try:
-                # ১. /search পাঠানো
+                # ১. সার্চ কমান্ড পাঠানো (Ager motoi same)
                 await app.send_message(BOT_USERNAME, "🙍‍♂️ Find a guy")
                 print("Searching...")
-                await asyncio.sleep(3) # একটু বেশি সময় দেওয়া নিরাপদ
+                await asyncio.sleep(4) 
 
-                # ২. মেসেজ পাঠানো (র‍্যান্ডম বিরতি সহ)
-                promo_text = "Girls and boys zone 18+ only.. 100% Free just take a look 👉 : https://t.co/rh8nCe5WGl"
+                # ২. Dating bot-e promo text pathano (Ager motoi same)
                 await app.send_message(BOT_USERNAME, promo_text)
                 await asyncio.sleep(3)
 
                 please_text = "plz join so that we both get 50 free gender wise match limit"
                 await app.send_message(BOT_USERNAME, please_text)
-                print("Messages sent!")
+                print("Messages sent to Dating Bot!")
                 await asyncio.sleep(2)
 
-                # ৩. /stop পাঠানো
+                # ৩. স্টপ পাঠানো
                 await app.send_message(BOT_USERNAME, "/stop")
                 print("Cycle complete. Sleeping...")
                 
-                # ৪. বড় বিরতি (অ্যাকাউন্ট সেফ রাখার জন্য কমপক্ষে ৬০-৯০ সেকেন্ড দিন)
+                # ৪. বিরতি
                 await asyncio.sleep(5) 
 
             except Exception as e:
                 print(f"Error encountered: {e}")
-                await asyncio.sleep(4)
+                await asyncio.sleep(5)
 
 if __name__ == "__main__":
-    # Render এর জন্য পোর্ট ম্যানেজমেন্ট
     port = int(os.environ.get("PORT", 8080))
     
-    # ওয়েব সার্ভার আলাদা থ্রেডে চালানো
+    # Web server thread-e chalao
     Thread(target=lambda: web.run(host='0.0.0.0', port=port, use_reloader=False)).start()
     
-    # অটোমেশন শুরু
+    # App run kora (Automation ebong Auto-reply eksathe kaj korbe)
     app.run(automation())
