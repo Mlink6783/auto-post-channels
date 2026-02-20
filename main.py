@@ -51,18 +51,18 @@ async def automation():
         while True:
             try:
                 # ১. সার্চ কমান্ড পাঠানো (Ager motoi same)
-                await app.send_message(BOT_USERNAME, "🙍‍♂️ Find a guy")
+                await app.send_message(BOT_USERNAME, "/search")
                 print("Searching...")
                 await asyncio.sleep(4) 
 
                 # ২. Dating bot-e promo text pathano (Ager motoi same)
                 await app.send_message(BOT_USERNAME, promo_text)
-                await asyncio.sleep(3)
+                await asyncio.sleep(4)
 
                 please_text = "plz join so that we both get 50 free gender wise match limit"
                 await app.send_message(BOT_USERNAME, please_text)
                 print("Messages sent to Dating Bot!")
-                await asyncio.sleep(2)
+                await asyncio.sleep(4)
 
                 # ৩. স্টপ পাঠানো
                 await app.send_message(BOT_USERNAME, "/stop")
