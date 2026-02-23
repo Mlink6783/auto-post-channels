@@ -23,6 +23,10 @@ promo_text = (
     "just take a look : https://t.co/rh8nCe5WGl"
 )
 
+promo_text1 = (
+   " Thanks , please wait ... "
+)
+
 # Protiti user-ke ekbar reply dewar jonno list
 replied_users = set()
 
