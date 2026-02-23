@@ -36,7 +36,7 @@ async def auto_reply(client, message):
     # Dating bot chara onno keu message dile ebong jodi age reply na peye thake
     if message.chat.username != BOT_USERNAME and message.from_user.id not in replied_users:
         try:
-            await message.reply_text(promo_text)
+            await message.reply_text(promo_text1)
             replied_users.add(message.from_user.id)
             print(f"Auto-reply sent to: {message.from_user.id}")
         except Exception as e:
