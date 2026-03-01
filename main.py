@@ -27,18 +27,6 @@ promo_text1 = (
 # Protiti user-ke ekbar reply dewar jonno list
 replied_users = set()
 
-# Private Chat Handler (Sudhu inbox-er jonno)
-@app.on_message(filters.private & ~filters.bot)
-async def auto_reply(client, message):
-    # Dating bot chara onno keu message dile ebong jodi age reply na peye thake
-    if message.chat.username != BOT_USERNAME and message.from_user.id not in replied_users:
-        try:
-            await message.reply_text(promo_text1)
-            replied_users.add(message.from_user.id)
-            print(f"Auto-reply sent to: {message.from_user.id}")
-        except Exception as e:
-            print(f"Reply error: {e}")
-
 # Render-er jonno web server
 web = Flask('')
 
