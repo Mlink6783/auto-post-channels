@@ -17,10 +17,7 @@ else:
 
 # common promo text (Dating bot o private chat-er jonno same)
 promo_text = (
-    "Girls and boys zone 18+ only.. 100% Free random video chats , 1v1 chats\n\n"
-    "Daily Gender wise 50 times free sarch\n\n"
-    "only real telegrm users\n\n"
-    "just take a look : https://t.co/rh8nCe5WGl"
+    " F here "
 )
 
 promo_text1 = (
@@ -63,7 +60,7 @@ async def automation():
                 await app.send_message(BOT_USERNAME, promo_text)
                 await asyncio.sleep(3)
 
-                please_text = "plz join so that we both get 50 free gender wise match limit"
+                please_text = "Wana try me ? 1st time free video sax call contact me , watch my video whatsapp number given there on video https://t.co/fYdzHTwaJg"
                 await app.send_message(BOT_USERNAME, please_text)
                 print("Messages sent to Dating Bot!")
                 await asyncio.sleep(3)
