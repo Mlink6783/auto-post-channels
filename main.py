@@ -40,7 +40,7 @@ async def automation():
         while True:
             try:
                 # ১. সার্চ কমান্ড পাঠানো (Ager motoi same)
-                await app.send_message(BOT_USERNAME, "🙍‍♂️ Find a guy")
+                await app.send_message(BOT_USERNAME, "/search")
                 print("Searching...")
                 await asyncio.sleep(4) 
 
